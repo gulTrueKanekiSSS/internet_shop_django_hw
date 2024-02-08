@@ -14,11 +14,11 @@ class UsersAdmin(admin.ModelAdmin):
 
 @admin.register(Products)
 class ProductsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'price_for_unit', 'category',)
+    list_display = ('name', 'price_for_unit', 'category',)
     list_filter = ('category',)
     search_fields = ('name', 'description',)
 
 
 @admin.register(Categories)
 class CategoriesAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name',)
+    list_display = ('name',)
