@@ -39,6 +39,7 @@ def contacts(request):
 
 def product_page(request, product_id):
     product_info = Products.objects.filter(id=product_id).first()
+    print(product_info.image)
     context = {'product_info': product_info}
     return render(request, 'product.html', context)
 
@@ -58,8 +59,19 @@ def registration(request):
 
 
 def make_product(request):
+    print(request.FILES)
     if request.method == 'POST':
-        pass
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        price = request.POST.get('price')
+        if request.FILES.get('image'):
+            photo = request.FILES.get('image')
+        else:
+            photo = None
+
+
+        Products.objects.create(name=name, description=description, price_for_unit=price, image=photo)
+
     return render(request, 'create_product.html')
 
 
