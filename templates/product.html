@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
-
+{% load custom_filters %}
 <div class="container">
   <div class="row">
+      {% load custom_tags %}
     <div class="col-md-6">
       <img src="/media/{{ product_info.image }}" class="img-fluid rounded" alt="{{ product_info.name }}">
+
     </div>
     <div class="col-md-6">
       <div class="p-3 mb-2 bg-white border border-primary rounded text-primary">
@@ -12,10 +14,10 @@
       </div>
       <div class="p-3 mb-2 bg-white border border-primary rounded text-primary">
           <h4>Описание:</h4>
-        <p>{{ product_info.description }}</p>
+        <p>{{ product_info.description|truncate_after_100 }}</p>
       </div>
       <div class="p-3 mb-2 bg-white border border-primary rounded text-primary">
-        <p>Цена: {{ product_info.price_for_unit }}</p>
+        <p>Цена: {{ product_info.price_for_unit }} RUB</p>
         <form action="{% url 'go_to_product' %}" method="post">
           {% csrf_token %}
           <input type="hidden" name="product_id" value="{{ product_info.id }}">

@@ -1,46 +1,4 @@
-{#{% extends 'base.html' %}#}
-{##}
-{#{% block content %}#}
-{#<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">#}
-{#  <div class="carousel-inner">#}
-{#    {% for product in products %}#}
-{#    <div class="carousel-item {% if forloop.first %} active {% endif %}">#}
-{#      <div class="container">#}
-{#        <div class="row justify-content-center"> <!-- Добавлен класс justify-content-center -->#}
-{#          <div class="col-3">#}
-{#            <div class="card mb-4 box-shadow">#}
-{#              <div class="card-header">#}
-{#                <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>#}
-{#              </div>#}
-{#              <div class="card-body">#}
-{#                <h1 class="card-title pricing-card-title">{{ product.price_for_unit }} RUB</h1>#}
-{#                <ul class="list-unstyled mt-3 mb-4 text-start m-3">#}
-{#                  <li>- Категория {{ product.category_name }}</li>#}
-{#                  <li>- Описание: {{ product.description }}</li>#}
-{#                </ul>#}
-{#                <form action="{% url 'go_to_product' %}" method="post">#}
-{#                  {% csrf_token %}#}
-{#                  <input type="hidden" name="product_id" value="{{ product.id }}">#}
-{#                  <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Купить</button>#}
-{#                </form>#}
-{#              </div>#}
-{#            </div>#}
-{#          </div>#}
-{#        </div>#}
-{#      </div>#}
-{#    </div>#}
-{#    {% endfor %}#}
-{#  </div>#}
-{#  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">#}
-{#    <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
-{#    <span class="visually-hidden">Previous</span>#}
-{#  </button>#}
-{#  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">#}
-{#    <span class="carousel-control-next-icon" aria-hidden="true"></span>#}
-{#    <span class="visually-hidden">Next</span>#}
-{#  </button>#}
-{#</div>#}
-{#{% endblock %}#}
+
 
 {% extends 'base.html' %}
 
@@ -59,7 +17,8 @@
                 <h1 class="card-title pricing-card-title">{{ product.price_for_unit }} RUB</h1>
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                   <li>- Категория {{ product.category_name }}</li>
-                  <li>- Описание: {{ product.description }}</li>
+                  {% load custom_filters %}
+                  <li>- Описание: {{ product.description|truncate_after_100 }}</li>
                 </ul>
                 <form action="{% url 'go_to_product' %}" method="post">
                   {% csrf_token %}
