@@ -1,78 +1,95 @@
-import json
+from django.core.mail import EmailMultiAlternatives
+
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from pytils.translit import slugify
 
-from catalog.models import Users, Products, Categories
+from catalog.models import Users, Products, Categories, Contacts
+
 
 
 # Create your views here.
+class ProductListView(ListView):
+    model = Products
 
-def home(request):
-    categories = list(Categories.objects.all())
-    products = list(Products.objects.all())
-    context = {
-                "products": products,
-                "categories": categories
-               }
-    return render(request, 'home.html', context)
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(is_published=True)
+        return queryset
 
 
-def contacts(request):
-    categories = list(Categories.objects.all())
-
-    context = {
-        "categories": categories
-    }
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
-        contact_information = {
-                                'name': name,
-                                'phone': phone,
-                                'message': message
-                               }
-        print(contact_information)
-    return render(request, 'contacts.html', context)
+class CategoriesListView(ListView):
+    model = Categories
 
 
-def product_page(request, product_id):
-    product_info = Products.objects.filter(id=product_id).first()
-    print(product_info.image)
-    context = {'product_info': product_info}
-    return render(request, 'product.html', context)
+class ContactCreateView(CreateView):
+    model = Contacts
+    fields = ('name', 'phone', 'message',)
+    success_url = reverse_lazy('catalog:ProductsList')
+
+    def form_valid(self, form):
+        print(form.cleaned_data["name"])
+        print(form.cleaned_data["phone"])
+        return super().form_valid(form)
 
 
-def go_to_product(request):
-    if request.method == 'POST':
-        product_id = request.POST.get('product_id')
-        print('OK')
-        return redirect('product_page', product_id=product_id)
-    return redirect('home')
+class ProductDetailView(DetailView):
+    model = Products
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        self.object.views_counter += 1
+        self.object.save()
+        if self.object.views_counter == 100:
+            subject = f'Товар {self.object.name}'
+            text_content = f'Поздравляем, товар {self.object.name} собрал 100 просмотров!!'
+            html_content = '<p>HTML версия сообщения</p>'
+            from_email = 'zds.vip1221@gmail.com'
+            to_email = ['dmitry.zahar201@yandex.ru']
+
+            msg = EmailMultiAlternatives(subject, text_content, from_email, to_email)
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+        return self.object
 
 
 def registration(request):
     categories = list(Categories.objects.all())
     context = {'categories': categories}
-    return render(request, 'registartion.html', context)
+    return render(request, 'catalog/registartion.html', context)
 
 
-def make_product(request):
-    print(request.FILES)
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        description = request.POST.get('description')
-        price = request.POST.get('price')
-        if request.FILES.get('image'):
-            photo = request.FILES.get('image')
-        else:
-            photo = None
+class ProductUpdateView(UpdateView):
+
+    model = Products
+    fields = ('name', 'description', 'price_for_unit', 'image',)
+
+    def form_valid(self, form):
+        if form.is_valid():
+            prod = form.save()
+            prod.slug = slugify(prod.name)
+            prod.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('catalog:product_page', args=[self.kwargs.get('pk')])
 
 
-        Products.objects.create(name=name, description=description, price_for_unit=price, image=photo)
+class ProductCreateView(CreateView):
+    model = Products
+    fields = ('name', 'description', 'price_for_unit', 'image',)
+    success_url = reverse_lazy('catalog:ProductsList')
 
-    return render(request, 'create_product.html')
+    def form_valid(self, form):
+        if form.is_valid():
+            prod = form.save()
+            prod.slug = slugify(prod.name)
+            prod.save()
+        return super().form_valid(form)
+
 
 
 

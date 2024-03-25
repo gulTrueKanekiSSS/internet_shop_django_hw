@@ -6,6 +6,19 @@ NULLABLE = {
 }
 
 
+class Contacts(models.Model):
+    name = models.CharField(max_length=110, verbose_name='имя')
+    phone = models.CharField(max_length=100, verbose_name='номер телефона')
+    message = models.TextField(verbose_name='Сообщение', **NULLABLE)
+
+    def __str__(self):
+        return f'{self.name} {self.phone} {self.message}'
+
+    class Meta:
+        verbose_name = 'Контакт'
+        verbose_name_plural = 'Контакты'
+
+
 class Users(models.Model):
 
     name = models.CharField(max_length=100, verbose_name='имя')
@@ -44,6 +57,9 @@ class Products(models.Model):
     price_for_unit = models.IntegerField(verbose_name='Цена за единицу товара')
     created_at = models.DateField(verbose_name='Дата создания', auto_now_add=True)
     updated_at = models.DateField(verbose_name='Дата изменения', auto_now=True)
+    views_counter = models.IntegerField(default=0, verbose_name='кол-во просмотров')
+    is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
+    slug = models.CharField(max_length=150, verbose_name='slug', **NULLABLE)
 
     def __str__(self):
         return f"{self.name}"

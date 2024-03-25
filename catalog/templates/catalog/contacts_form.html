@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'catalog/base.html' %}
 
 {% block content %}
 <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
@@ -33,7 +33,7 @@
                 <h4 class="my-0 font-weight-normal">Свяжитесь с нами</h4>
             </div>
             <div class="card-body">
-                <form method="post" action="" class="form-floating">
+                <form method="POST" action="" class="form-floating">
                     {% csrf_token %}
                     <div class="mb-3">
                         <label for="name">Имя</label>
@@ -44,8 +44,8 @@
                         <input type="text" name="phone" class="form-control" id="phone" placeholder="Контактный телефон" required>
                     </div>
                     <div class="mb-3">
-                        <label for="message">Сообщение</label>
-                        <textarea type="text" name="message" class="form-control" id="message" placeholder="Ваше сообщение" required></textarea>
+                        <label for="phone">Телефон</label>
+                        <input type="text" name="message" class="form-control" id="message" placeholder="Ваше сообщение" required>
                     </div>
                     <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Отправить</button>
                 </form>

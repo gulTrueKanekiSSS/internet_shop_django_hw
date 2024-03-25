@@ -1,0 +1,32 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+{% load custom_filters %}
+<div class="container">
+  <div class="row">
+      {% load custom_tags %}
+    <div class="col-md-6">
+      <img src="/media/{{ object.image }}" class="img-fluid rounded" alt="{{ object.name }}">
+
+    </div>
+    <div class="col-md-6">
+      <div class="p-3 mb-2 bg-white border border-primary rounded text-primary">
+        <h2>{{ object.name }} ({{ object.slug }})</h2>
+      </div>
+      <div class="p-3 mb-2 bg-white border border-primary rounded text-primary">
+          <h4>Описание:</h4>
+        <p>{{ object.description|truncate_after_100 }}</p>
+      </div>
+      <div class="p-3 mb-2 bg-white border border-primary rounded text-primary">
+        <p>Цена: {{ object.price_for_unit }} RUB</p>
+          <a href="{% url 'catalog:product_page' object.pk %}" class="btn btn-primary">
+                Купить
+          </a>
+      </div>
+        <div class="p-3 mb-2 bg-white border border-primary rounded text-primary">
+            <p>Просмотры: {{ object.views_counter }}</p>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

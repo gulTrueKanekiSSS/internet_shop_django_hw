@@ -1,30 +1,34 @@
 
 
-{% extends 'base.html' %}
+{% extends 'catalog/base.html' %}
 
 {% block content %}
 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
   <div class="carousel-inner">
-    {% for product in products %}
+    {% for object in object_list %}
     <div class="carousel-item {% if forloop.first %} active {% endif %}">
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-3">
             <div class="card mb-4 box-shadow">
-              <img src="/media/{{ product.image }}" class="card-img-top" alt="..."> <!-- Добавлено изображение -->
+              <img src="/media/{{ object.image }}" class="card-img-top" alt="..."> <!-- Добавлено изображение -->
               <div class="card-body">
-                <h4 class="my-0 font-weight-normal">{{ product.name }}</h4>
-                <h1 class="card-title pricing-card-title">{{ product.price_for_unit }} RUB</h1>
+                <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
+                <h1 class="card-title pricing-card-title">{{ object.price_for_unit }} RUB</h1>
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                  <li>- Категория {{ product.category_name }}</li>
+                  <li>- Категория {{ object.category_name }}</li>
                   {% load custom_filters %}
-                  <li>- Описание: {{ product.description|truncate_after_100 }}</li>
+                  <li>- Описание: {{ object.description|truncate_after_100 }}</li>
                 </ul>
-                <form action="{% url 'go_to_product' %}" method="post">
                   {% csrf_token %}
-                  <input type="hidden" name="product_id" value="{{ product.id }}">
-                  <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
-                </form>
+                  <a href="{% url 'catalog:product_page' object.pk %}" class="btn btn-primary">
+                    Купить
+                  </a>
+{#                <form action="{% url 'go_to_product' %}" method="post">#}
+{#                  {% csrf_token %}#}
+{#                  <input type="hidden" name="product_id" value="{{ object.id }}">#}
+{#                  <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Купить</button>#}
+{#                </form>#}
               </div>
             </div>
           </div>
