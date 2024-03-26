@@ -1,5 +1,4 @@
 
-
 {% extends 'catalog/base.html' %}
 
 {% block content %}
@@ -11,19 +10,26 @@
         <div class="row justify-content-center">
           <div class="col-3">
             <div class="card mb-4 box-shadow">
-              <img src="/media/{{ object.image }}" class="card-img-top" alt="..."> <!-- Добавлено изображение -->
+              <img src="/media/{{ object.preview }}" class="card-img-top" alt="..."> <!-- Добавлено изображение -->
               <div class="card-body">
-                <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
-                <h1 class="card-title pricing-card-title">{{ object.price_for_unit }} RUB</h1>
+                <h4 class="my-0 font-weight-normal">{{ object.title }}</h4>
                 <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                  <li>- Категория {{ object.category_name }}</li>
                   {% load custom_filters %}
-                  <li>- Описание: {{ object.description|truncate_after_100 }}</li>
+                  <li>- Описание: {{ object.content|truncate_after_100 }}</li>
+                  <li>- Просмотры: {{ object.view_count }}</li>
                 </ul>
                   {% csrf_token %}
-                  <a href="{% url 'catalog:product_page' object.pk %}" class="btn btn-primary">
-                    Купить
-                  </a>
+                  <nav class="ms-auto">
+                      <a href="{% url 'blog:post' object.pk %}" class="btn btn-primary">
+                        Посмотреть
+                      </a>
+                      <a href="{% url 'blog:edit_post' object.pk %}" class="btn btn-primary">
+                        Редактировать
+                      </a>
+                      <a href="{% url 'blog:delete_post' object.pk %}" class="btn btn-primary">
+                          Удалить
+                      </a>
+                  </nav>
               </div>
             </div>
           </div>

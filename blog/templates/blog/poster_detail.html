@@ -1,0 +1,27 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+{% load custom_filters %}
+<div class="container">
+  <div class="row">
+      {% load custom_tags %}
+    <div class="col-md-6">
+      <img src="/media/{{ object.preview }}" class="img-fluid rounded" alt="{{ object.title }}">
+
+    </div>
+    <div class="col-md-6">
+      <div class="p-3 mb-2 bg-white border border-primary rounded text-primary">
+        <h2>{{ object.title }} ({{ object.slug }})</h2>
+      </div>
+      <div class="p-3 mb-2 bg-white border border-primary rounded text-primary">
+          <h4>Описание:</h4>
+        <p>{{ object.content|truncate_after_100 }}</p>
+      </div>
+
+        <div class="p-3 mb-2 bg-white border border-primary rounded text-primary">
+            <p>Просмотры: {{ object.view_count }}</p>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

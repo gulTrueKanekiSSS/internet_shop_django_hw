@@ -1,0 +1,38 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<body>
+<div class="container">
+    <div class="row text-start">
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="card mb-4 box-shadow">
+                <div class="position-relative">
+                    <div class="top-50 start-50">
+                     <div class="card-body">
+                         <form id="upload-container" method="POST" class="form-floating" enctype="multipart/form-data">
+                             {% csrf_token %}
+                             <div class="mb-3">
+                                 <label for="name">Название</label>
+                                 <input type="text" name="title" class="form-control" id="title" placeholder="Загаловок поста" required>
+                             </div>
+                             <div class="mb-3">
+                                 <label for="description">Содержимое</label>
+                                 <input type="text" name="content" class="form-control" id="content" placeholder="Содержимое поста" required>
+                             </div>
+                             <div class="mb-3">
+                                   <input type="file" name="image" accept="image/*">
+                              </div>
+                             {% if object %}
+                                 <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Редактировать</button>
+                             {% else %}
+                                 <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Создать</button>
+                             {% endif %}
+                         </form>
+                     </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+{% endblock %}
