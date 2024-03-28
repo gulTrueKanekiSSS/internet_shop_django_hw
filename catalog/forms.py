@@ -39,3 +39,4 @@ class ContactForm(StyleMixinForm, forms.ModelForm):
         fields = ('name', 'phone', 'message',)
 
 
+

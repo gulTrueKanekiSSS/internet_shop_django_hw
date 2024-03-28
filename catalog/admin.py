@@ -34,3 +34,4 @@ class CategoriesAdmin(admin.ModelAdmin):
 @admin.register(VersionProduct)
 class VersionProductAdmin(admin.ModelAdmin):
     list_display = ('version_name', 'version_num')
+

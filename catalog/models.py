@@ -81,3 +81,4 @@ class VersionProduct(models.Model):
         verbose_name = 'Версия продукта'
         verbose_name_plural = 'Версии продукта'
         ordering = ('version_num',)
+

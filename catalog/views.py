@@ -94,6 +94,7 @@ class ProductUpdateView(UpdateView):
 
             prod.save()
 
+
         return super().form_valid(form)
 
     def get_success_url(self):
