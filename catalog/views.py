@@ -6,12 +6,10 @@ from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from pytils.translit import slugify
+from catalog.forms import ProductForm, ContactForm
+from catalog.models import Users, Products, Categories, Contacts, VersionProduct
 
-from catalog.models import Users, Products, Categories, Contacts
 
-
-
-# Create your views here.
 class ProductListView(ListView):
     model = Products
 
@@ -27,7 +25,8 @@ class CategoriesListView(ListView):
 
 class ContactCreateView(CreateView):
     model = Contacts
-    fields = ('name', 'phone', 'message',)
+    # fields = ('name', 'phone', 'message',)
+    form_class = ContactForm
     success_url = reverse_lazy('catalog:ProductsList')
 
     def form_valid(self, form):
@@ -55,6 +54,14 @@ class ProductDetailView(DetailView):
             msg.send()
         return self.object
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.get_object()
+        version_product = product.versionproduct_set.first()
+        if version_product:
+            context['version'] = version_product.version_num
+        return context
+
 
 def registration(request):
     categories = list(Categories.objects.all())
@@ -65,13 +72,28 @@ def registration(request):
 class ProductUpdateView(UpdateView):
 
     model = Products
-    fields = ('name', 'description', 'price_for_unit', 'image',)
+    form_class = ProductForm
 
     def form_valid(self, form):
         if form.is_valid():
-            prod = form.save()
+            prod = form.save(commit=False)
             prod.slug = slugify(prod.name)
+            version_product = VersionProduct.objects.get(product=prod)
+
+            major, minor, patch = version_product.version_num.split('.')
+            patch = int(patch) + 1
+            if patch > 9:
+                patch = 0
+                minor = int(minor) + 1
+                if minor > 9:
+                    minor = 0
+                    major = int(major) + 1
+
+            version_product.version_num = f"{major}.{minor}.{patch}"
+            version_product.save()
+
             prod.save()
+
         return super().form_valid(form)
 
     def get_success_url(self):
@@ -80,7 +102,8 @@ class ProductUpdateView(UpdateView):
 
 class ProductCreateView(CreateView):
     model = Products
-    fields = ('name', 'description', 'price_for_unit', 'image',)
+    # fields = ('name', 'description', 'price_for_unit', 'image',)
+    form_class = ProductForm
     success_url = reverse_lazy('catalog:ProductsList')
 
     def form_valid(self, form):
@@ -88,9 +111,33 @@ class ProductCreateView(CreateView):
             prod = form.save()
             prod.slug = slugify(prod.name)
             prod.save()
+            VersionProduct.objects.create(product=prod, version_name='Initial Version')
         return super().form_valid(form)
 
 
+class VersionDetailView(DetailView):
+    model = VersionProduct
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     version =
+
+    # def get_object(self, queryset=None):
+    #     self.object = super().get_object(queryset)
+    #     version = self.object.version_num
+    #     major, minor, patch = version.split('.')
+    #     patch = int(patch) + 1
+    #     if patch > 9:
+    #         patch = 0
+    #         minor = int(minor) + 1
+    #         if minor > 9:
+    #             minor = 0
+    #             major = int(major) + 1
+    #     version = f"{major}.{minor}.{patch}"
+    #     self.object.version_num = version
+    #     self.object.save()
+    #
+    #     return self.object
 
 
 

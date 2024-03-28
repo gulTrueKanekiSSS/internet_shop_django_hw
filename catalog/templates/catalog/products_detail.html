@@ -21,10 +21,14 @@
           <a href="{% url 'catalog:product_page' object.pk %}" class="btn btn-primary">
                 Купить
           </a>
+          <a href="{% url 'catalog:update_product' object.pk %}" class="btn btn-danger">
+                Изменить
+          </a>
       </div>
         <div class="p-3 mb-2 bg-white border border-primary rounded text-primary">
-            <p>Просмотры: {{ object.views_counter }}</p>
+            <p>Просмотры: {{ object.views_counter }} Версия продукта - v{{ version }}</p>
         </div>
+
     </div>
   </div>
 </div>

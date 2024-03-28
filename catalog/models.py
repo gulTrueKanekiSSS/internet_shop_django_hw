@@ -68,3 +68,16 @@ class Products(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         ordering = ('category',)
+
+
+class VersionProduct(models.Model):
+    version_name = models.CharField(max_length=60, verbose_name='Версия продукта')
+    version_num = models.CharField(max_length=150, default='1.0.0', verbose_name='Номер версии')
+    is_active = models.BooleanField(default=True, verbose_name='Версия активна')
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, verbose_name='Продукт', null=True)
+    last_update = models.DateField(verbose_name='Дата применения последней версии', auto_now=True, **NULLABLE)
+
+    class Meta:
+        verbose_name = 'Версия продукта'
+        verbose_name_plural = 'Версии продукта'
+        ordering = ('version_num',)

@@ -7,20 +7,13 @@
             <div class="card mb-4 box-shadow">
                 <div class="position-relative">
                     <div class="top-50 start-50">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Создай свою запись</h4>
+                    </div>
                      <div class="card-body">
                          <form id="upload-container" method="POST" class="form-floating" enctype="multipart/form-data">
                              {% csrf_token %}
-                             <div class="mb-3">
-                                 <label for="name">Название</label>
-                                 <input type="text" name="title" class="form-control" id="title" placeholder="Загаловок поста" required>
-                             </div>
-                             <div class="mb-3">
-                                 <label for="description">Содержимое</label>
-                                 <input type="text" name="content" class="form-control" id="content" placeholder="Содержимое поста" required>
-                             </div>
-                             <div class="mb-3">
-                                   <input type="file" name="image" accept="image/*">
-                              </div>
+                             {{ form.as_p }}
                              {% if object %}
                                  <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Редактировать</button>
                              {% else %}

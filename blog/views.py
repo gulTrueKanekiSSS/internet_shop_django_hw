@@ -3,6 +3,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 from pytils.translit import slugify
 
+from blog.forms import PosterForm
 from blog.models import Poster
 
 
@@ -29,7 +30,7 @@ class PosterDetailView(DetailView):
 
 class PosterUpdateView(UpdateView):
     model = Poster
-    fields = ('title', 'content', 'preview',)
+    form_class = PosterForm
 
     def form_valid(self, form):
         if form.is_valid():
@@ -44,7 +45,7 @@ class PosterUpdateView(UpdateView):
 
 class PosterCreateView(CreateView):
     model = Poster
-    fields = ('title', 'content', 'preview',)
+    form_class = PosterForm
     success_url = reverse_lazy('blog:main_page')
 
     def form_valid(self, form):
