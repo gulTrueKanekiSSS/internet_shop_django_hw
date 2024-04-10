@@ -1,13 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import EmailMultiAlternatives
 
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from pytils.translit import slugify
 from catalog.forms import ProductForm, ContactForm
-from catalog.models import Users, Products, Categories, Contacts, VersionProduct
+from catalog.models import Products, Categories, Contacts, VersionProduct
 
 
 class ProductListView(ListView):
@@ -63,16 +61,13 @@ class ProductDetailView(DetailView):
         return context
 
 
-def registration(request):
-    categories = list(Categories.objects.all())
-    context = {'categories': categories}
-    return render(request, 'catalog/registartion.html', context)
 
-
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Products
     form_class = ProductForm
+    login_url = reverse_lazy('users:login')
+    redirect_field_name = 'next'
 
     def form_valid(self, form):
         if form.is_valid():
@@ -100,10 +95,21 @@ class ProductUpdateView(UpdateView):
     def get_success_url(self):
         return reverse('catalog:product_page', args=[self.kwargs.get('pk')])
 
-
-class ProductCreateView(CreateView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Products
-    # fields = ('name', 'description', 'price_for_unit', 'image',)
+    template_name = 'catalog/product_confirm_delete.html'
+    success_url = reverse_lazy('catalog:ProductsList')
+    login_url = reverse_lazy('users:login')
+
+
+
+
+class ProductCreateView(LoginRequiredMixin, CreateView):
+
+    login_url = reverse_lazy('users:login')
+    redirect_field_name = 'next'
+
+    model = Products
     form_class = ProductForm
     success_url = reverse_lazy('catalog:ProductsList')
 

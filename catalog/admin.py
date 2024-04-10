@@ -1,16 +1,6 @@
 from django.contrib import admin
 
-from catalog.models import Users, Products, Categories, Contacts, VersionProduct
-
-
-# admin.site.register(Users)
-
-
-@admin.register(Users)
-class UsersAdmin(admin.ModelAdmin):
-    list_display = ('name', 'phone', 'is_active',)
-    list_filter = ('is_active',)
-    search_fields = ('name', 'phone',)
+from catalog.models import Products, Categories, Contacts, VersionProduct
 
 
 @admin.register(Products)

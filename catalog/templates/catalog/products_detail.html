@@ -24,6 +24,9 @@
           <a href="{% url 'catalog:update_product' object.pk %}" class="btn btn-danger">
                 Изменить
           </a>
+          <a href="{% url 'catalog:delete_product' object.pk %}" class="btn btn-danger">
+                Удалить
+          </a>
       </div>
         <div class="p-3 mb-2 bg-white border border-primary rounded text-primary">
             <p>Просмотры: {{ object.views_counter }} Версия продукта - v{{ version }}</p>

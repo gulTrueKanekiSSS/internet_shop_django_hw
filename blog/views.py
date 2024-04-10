@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
@@ -28,7 +29,10 @@ class PosterDetailView(DetailView):
         return self.object
 
 
-class PosterUpdateView(UpdateView):
+class PosterUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('users:login')
+    redirect_field_name = 'next'
+
     model = Poster
     form_class = PosterForm
 
@@ -43,7 +47,11 @@ class PosterUpdateView(UpdateView):
         return reverse('blog:post', args=[self.kwargs.get('pk')])
 
 
-class PosterCreateView(CreateView):
+class PosterCreateView(LoginRequiredMixin, CreateView):
+
+    login_url = reverse_lazy('users:login')
+    redirect_field_name = 'next'
+
     model = Poster
     form_class = PosterForm
     success_url = reverse_lazy('blog:main_page')
@@ -56,6 +64,10 @@ class PosterCreateView(CreateView):
         return super().form_valid(form)
 
 
-class PosterDeleteView(DeleteView):
+class PosterDeleteView(LoginRequiredMixin, DeleteView):
+
+    login_url = reverse_lazy('users:login')
+    redirect_field_name = 'next'
+
     model = Poster
     success_url = reverse_lazy('blog:main_page')

@@ -19,23 +19,6 @@ class Contacts(models.Model):
         verbose_name_plural = 'Контакты'
 
 
-class Users(models.Model):
-
-    name = models.CharField(max_length=100, verbose_name='имя')
-    phone = models.CharField(max_length=20, verbose_name='контакты')
-    message = models.TextField(verbose_name='сообщение', **NULLABLE)
-
-    is_active = models.BooleanField(default=True, verbose_name='Закупается')
-
-    def __str__(self):
-        return f'{self.name} {self.phone}'
-
-    class Meta:
-        verbose_name = 'клиент'
-        verbose_name_plural = 'клиенты'
-        ordering = ('phone',)
-
-
 class Categories(models.Model):
     name = models.CharField(max_length=30, verbose_name="Название категории")
     description = models.TextField(verbose_name='Описание категории')
