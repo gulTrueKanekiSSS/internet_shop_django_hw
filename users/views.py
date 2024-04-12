@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordResetView
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, View, TemplateView
+from django.views.generic import CreateView, View, TemplateView, DetailView
 
 from internet_shop_django.settings import EMAIL_HOST_USER
 from users.forms import UserRegisterForm
@@ -10,6 +10,10 @@ from users.models import User
 from django.core.mail import send_mail
 import random
 import string
+
+class UserDetailView(DetailView):
+    model = User
+
 
 
 class RegisterView(CreateView):
