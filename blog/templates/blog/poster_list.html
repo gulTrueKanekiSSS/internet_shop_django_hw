@@ -23,12 +23,14 @@
                       <a href="{% url 'blog:post' object.pk %}" class="btn btn-primary">
                         Посмотреть
                       </a>
+                      {% if request.user == object.creator %}
                       <a href="{% url 'blog:edit_post' object.pk %}" class="btn btn-primary">
                         Редактировать
                       </a>
                       <a href="{% url 'blog:delete_post' object.pk %}" class="btn btn-primary">
                           Удалить
                       </a>
+                      {% endif %}
                   </nav>
               </div>
             </div>

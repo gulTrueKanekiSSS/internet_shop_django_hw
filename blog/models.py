@@ -1,9 +1,8 @@
 from django.db import models
 
-NULLABLE = {
-    'blank': True,
-    'null': True
-}
+from internet_shop_django.settings import NULLABLE
+from users.models import User
+
 
 
 # Create your models here.
@@ -15,6 +14,7 @@ class Poster(models.Model):
     created_at = models.DateField(verbose_name='Дата создания', auto_now_add=True)
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
     view_count = models.IntegerField(default=0, verbose_name='Количество просмотров')
+    creator = models.ForeignKey(User, related_name='posters', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f"{self.title}"

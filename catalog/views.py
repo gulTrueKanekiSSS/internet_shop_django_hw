@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.mail import EmailMultiAlternatives
 
 from django.urls import reverse_lazy, reverse
@@ -23,7 +23,6 @@ class CategoriesListView(ListView):
 
 class ContactCreateView(CreateView):
     model = Contacts
-    # fields = ('name', 'phone', 'message',)
     form_class = ContactForm
     success_url = reverse_lazy('catalog:ProductsList')
 
@@ -62,12 +61,10 @@ class ProductDetailView(DetailView):
 
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     model = Products
     form_class = ProductForm
-    login_url = reverse_lazy('users:login')
-    redirect_field_name = 'next'
 
     def form_valid(self, form):
         if form.is_valid():
@@ -92,21 +89,25 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
 
         return super().form_valid(form)
 
+    def test_func(self):
+        product = self.get_object()
+        return self.request.user == product.creator
+
     def get_success_url(self):
         return reverse('catalog:product_page', args=[self.kwargs.get('pk')])
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Products
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:ProductsList')
-    login_url = reverse_lazy('users:login')
 
-
+    def test_func(self):
+        product = self.get_object()
+        return self.request.user == product.creator
 
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
 
-    login_url = reverse_lazy('users:login')
     redirect_field_name = 'next'
 
     model = Products
@@ -119,32 +120,13 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
             prod.slug = slugify(prod.name)
             prod.save()
             VersionProduct.objects.create(product=prod, version_name='Initial Version')
+            form.instance.creator = self.request.user
         return super().form_valid(form)
 
 
 class VersionDetailView(DetailView):
     model = VersionProduct
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     version =
-
-    # def get_object(self, queryset=None):
-    #     self.object = super().get_object(queryset)
-    #     version = self.object.version_num
-    #     major, minor, patch = version.split('.')
-    #     patch = int(patch) + 1
-    #     if patch > 9:
-    #         patch = 0
-    #         minor = int(minor) + 1
-    #         if minor > 9:
-    #             minor = 0
-    #             major = int(major) + 1
-    #     version = f"{major}.{minor}.{patch}"
-    #     self.object.version_num = version
-    #     self.object.save()
-    #
-    #     return self.object
 
 
 

@@ -61,6 +61,7 @@ class PosterCreateView(LoginRequiredMixin, CreateView):
             prod = form.save()
             prod.slug = slugify(prod.title)
             prod.save()
+            form.instance.creator = self.request.user
         return super().form_valid(form)
 
 

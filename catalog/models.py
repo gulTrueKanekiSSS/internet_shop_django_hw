@@ -1,9 +1,7 @@
 from django.db import models
 
-NULLABLE = {
-    'blank': True,
-    'null': True
-}
+from internet_shop_django.settings import NULLABLE
+from users.models import User
 
 
 class Contacts(models.Model):
@@ -43,6 +41,8 @@ class Products(models.Model):
     views_counter = models.IntegerField(default=0, verbose_name='кол-во просмотров')
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
     slug = models.CharField(max_length=150, verbose_name='slug', **NULLABLE)
+    creator = models.ForeignKey(User, related_name='products', on_delete=models.CASCADE, null=True)
+
 
     def __str__(self):
         return f"{self.name}"
