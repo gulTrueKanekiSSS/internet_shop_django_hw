@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.core.mail import EmailMultiAlternatives
 
 from django.urls import reverse_lazy, reverse
@@ -61,10 +61,11 @@ class ProductDetailView(DetailView):
 
 
 
-class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class ProductUpdateView(PermissionRequiredMixin ,LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     model = Products
     form_class = ProductForm
+    permission_required = ('catalog.change_products',)
 
     def form_valid(self, form):
         if form.is_valid():
@@ -96,23 +97,25 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_success_url(self):
         return reverse('catalog:product_page', args=[self.kwargs.get('pk')])
 
-class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class ProductDeleteView(PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Products
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:ProductsList')
+    permission_required = ('catalog.delete_products',)
 
     def test_func(self):
         product = self.get_object()
         return self.request.user == product.creator
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
+class ProductCreateView(PermissionRequiredMixin,LoginRequiredMixin, CreateView):
 
     redirect_field_name = 'next'
 
     model = Products
     form_class = ProductForm
     success_url = reverse_lazy('catalog:ProductsList')
+    permission_required = ('catalog.add_products',)
 
     def form_valid(self, form):
         if form.is_valid():

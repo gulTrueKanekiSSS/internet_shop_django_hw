@@ -1,5 +1,4 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 from pytils.translit import slugify
@@ -29,7 +28,8 @@ class PosterDetailView(DetailView):
         return self.object
 
 
-class PosterUpdateView(LoginRequiredMixin, UpdateView):
+class PosterUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = 'blog.change_poster'
     login_url = reverse_lazy('users:login')
     redirect_field_name = 'next'
 
@@ -47,7 +47,7 @@ class PosterUpdateView(LoginRequiredMixin, UpdateView):
         return reverse('blog:post', args=[self.kwargs.get('pk')])
 
 
-class PosterCreateView(LoginRequiredMixin, CreateView):
+class PosterCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
     login_url = reverse_lazy('users:login')
     redirect_field_name = 'next'
@@ -55,6 +55,7 @@ class PosterCreateView(LoginRequiredMixin, CreateView):
     model = Poster
     form_class = PosterForm
     success_url = reverse_lazy('blog:main_page')
+    permission_required = 'blog.add_poster'
 
     def form_valid(self, form):
         if form.is_valid():
@@ -65,10 +66,11 @@ class PosterCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PosterDeleteView(LoginRequiredMixin, DeleteView):
+class PosterDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
     login_url = reverse_lazy('users:login')
     redirect_field_name = 'next'
 
     model = Poster
     success_url = reverse_lazy('blog:main_page')
+    permission_required = 'blog.delete_poster'
