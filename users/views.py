@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import Group
 from django.contrib.auth.views import PasswordResetView
 from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -24,10 +25,8 @@ class RegisterView(CreateView):
     success_url = reverse_lazy('users:login')
 
     def form_valid(self, form):
-        # Генерация случайного кода для верификации
         verification_code = ''.join(random.choices(string.ascii_letters + string.digits, k=6))
 
-        # Отправка кода на почту
         send_mail(
             'Код верификации',
             f'Ваш код верификации: {verification_code}',
@@ -36,12 +35,18 @@ class RegisterView(CreateView):
             fail_silently=False,
         )
 
-        # Сохранение кода и остальных данных пользователя
         user = form.save(commit=False)
         user.verification_code = verification_code
-        user.save()
 
-        # Перенаправление на страницу с вводом кода верификации
+        super().form_valid(form)
+
+        user = form.instance
+
+        group = Group.objects.get(name='user')
+        user.groups.add(group)
+
+        # user.save()
+
         return redirect('users:verification', pk=user.pk)
 
 
