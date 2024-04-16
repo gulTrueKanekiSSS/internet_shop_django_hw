@@ -1,0 +1,42 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    {% for object in object_list %}
+    <div class="carousel-item {% if forloop.first %} active {% endif %}">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-3">
+            <div class="card mb-4 box-shadow">
+              <img src="/media/{{ object.image }}" class="card-img-top" alt="..."> <!-- Добавлено изображение -->
+              <div class="card-body">
+                <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
+                <h1 class="card-title pricing-card-title">{{ object.price_for_unit }} RUB</h1>
+                <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                  <li>- Категория {{ object.category_name }}</li>
+                  {% load custom_filters %}
+                  <li>- Описание: {{ object.description|truncate_after_100 }}</li>
+                </ul>
+                  {% csrf_token %}
+                  <a href="{% url 'catalog:product_page' object.pk %}" class="btn btn-primary">
+                    Купить
+                  </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+{% endblock %}

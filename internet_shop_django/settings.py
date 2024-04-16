@@ -16,6 +16,7 @@ from dotenv import load_dotenv
 load_dotenv()
 ya_password = os.getenv('YA_PASSWORD')
 admin_password = os.getenv('ADMIN_PASSWORD')
+PASSWORD = os.getenv('PASSWORD')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': '12345',
+        'PASSWORD': PASSWORD,
     }
 }
 
@@ -160,3 +161,12 @@ NULLABLE = {
     'blank': True,
     'null': True
 }
+
+CACHE_ENABLED=True
+if CACHE_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": "redis://127.0.0.1:6379",
+        }
+    }

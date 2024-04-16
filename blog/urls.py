@@ -1,7 +1,7 @@
 from django.urls import path
 
 from blog.apps import BlogConfig
-from blog.views import PosterListView, PosterDetailView, PosterCreateView, PosterUpdateView, PosterDeleteView
+from blog.views import PosterListView, PosterDetailView, PosterCreateView, PosterUpdateView, PosterDeleteView, UserPostsListView
 
 app_name = BlogConfig.name
 
@@ -11,5 +11,6 @@ urlpatterns = [
     path('create_post/', PosterCreateView.as_view(), name='create_post'),
     path('edit/<int:pk>', PosterUpdateView.as_view(), name='edit_post'),
     path('delete/<int:pk>', PosterDeleteView.as_view(), name='delete_post'),
+    path('user_posts/', UserPostsListView.as_view(), name='user_posts'),
 
 ]

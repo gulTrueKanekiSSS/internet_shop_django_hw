@@ -8,44 +8,39 @@
 </head>
 <body>
 
-{#<header>#}
-{#    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">#}
-{#        <h5 class="my-0 mr-md-auto font-weight-normal"><a href="{% url 'catalog:ProductsList' %}">Skystore</a></h5>#}
-{#        <nav class="ms-auto">#}
-{#            <ul class="nav">#}
-{#                <li class="nav-item"><a class="nav-link" href="{% url 'catalog:ProductsList' %}">Каталог</a></li>#}
-{#                <li class="nav-item"><a class="nav-link" href="{% url 'blog:main_page' %}">Посты</a></li>#}
-{#                <li class="nav-item"><a class="nav-link" href="{% url 'catalog:create_contact' %}">Контакты</a></li>#}
-{#                <li class="nav-item"><a class="nav-link" href="{% url 'catalog:create_product' %}">Опубликовать товар</a></li>#}
-{#                <li class="nav-item"><a class="nav-link" href="{% url 'blog:create_post' %}">Создать запись</a></li>#}
-{#                {% if user.is_authenticated %}#}
-{#                    <li class="nav-item"><a class="nav-link" href="{% url 'users:logout' %}">Выйти</a></li>#}
-{#                {% else %}#}
-{#                    <li class="nav-item"><a class="nav-link" href="{% url 'users:login' %}">Войти</a></li>#}
-{#                {% endif %}#}
-{#                <li class="nav-divider"></li> <!-- Разделитель -->#}
-{#                <li class="nav-item"><a class="btn btn-primary" href="{% url 'users:register' %}">Регистрация</a></li>#}
-{#            </ul>#}
-{#        </nav>#}
-{#    </div>#}
-{#</header>#}
+
 <header>
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
         <h5 class="my-0 mr-md-auto font-weight-normal"><a href="{% url 'catalog:ProductsList' %}">Skystore</a></h5>
         <nav class="ms-auto">
             <ul class="nav">
-                <li class="nav-item"><a class="nav-link" href="{% url 'catalog:ProductsList' %}">Каталог</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'blog:main_page' %}">Посты</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'catalog:create_contact' %}">Контакты</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'catalog:create_product' %}">Опубликовать товар</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'blog:create_post' %}">Создать запись</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkPosts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Посты
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkPosts">
+                        <li><a class="dropdown-item" href="{% url 'blog:create_post' %}">Создать запись</a></li>
+                        <li><a class="dropdown-item" href="{% url 'blog:main_page' %}">Посты</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkProducts" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Продукты
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkProducts">
+                        <li><a class="dropdown-item" href="{% url 'catalog:create_product' %}">Опубликовать товар</a></li>
+                        <li><a class="dropdown-item" href="{% url 'catalog:ProductsList' %}">Продукты</a></li>
+                    </ul>
+                </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLinkProfile" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Профиль
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLinkProfile">
                             <li><a class="dropdown-item" href="{% url 'users:profile' user.pk %}">Мой профиль</a></li>
+                            <li><a class="dropdown-item" href="{% url 'catalog:user_products' %}">Мои продукты</a></li>
+                            <li><a class="dropdown-item" href="{% url 'blog:user_posts' %}">Мои посты</a></li>
                             <li><a class="dropdown-item" href="{% url 'users:logout' %}">Выйти</a></li>
                         </ul>
                     </li>
@@ -58,6 +53,7 @@
         </nav>
     </div>
 </header>
+
 
 
 

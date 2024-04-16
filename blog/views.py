@@ -29,7 +29,7 @@ class PosterDetailView(DetailView):
 
 
 class PosterUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    permission_required = 'blog.change_poster'
+    # permission_required = 'blog.change_poster'
     login_url = reverse_lazy('users:login')
     redirect_field_name = 'next'
 
@@ -47,7 +47,7 @@ class PosterUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
         return reverse('blog:post', args=[self.kwargs.get('pk')])
 
 
-class PosterCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+class PosterCreateView(LoginRequiredMixin, CreateView):
 
     login_url = reverse_lazy('users:login')
     redirect_field_name = 'next'
@@ -55,7 +55,7 @@ class PosterCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Poster
     form_class = PosterForm
     success_url = reverse_lazy('blog:main_page')
-    permission_required = 'blog.add_poster'
+    # permission_required = 'blog.add_poster'
 
     def form_valid(self, form):
         if form.is_valid():
@@ -73,4 +73,12 @@ class PosterDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
     model = Poster
     success_url = reverse_lazy('blog:main_page')
-    permission_required = 'blog.delete_poster'
+    # permission_required = 'blog.delete_poster'
+
+
+class UserPostsListView(LoginRequiredMixin, PosterListView):
+    model = Poster
+
+    def get_queryset(self):
+        user = self.request.user
+        return Poster.objects.filter(creator=user)

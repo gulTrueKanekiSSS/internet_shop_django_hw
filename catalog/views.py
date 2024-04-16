@@ -65,7 +65,7 @@ class ProductUpdateView(PermissionRequiredMixin ,LoginRequiredMixin, UserPassesT
 
     model = Products
     form_class = ProductForm
-    permission_required = ('catalog.change_products',)
+    # permission_required = ('catalog.change_products',)
 
     def form_valid(self, form):
         if form.is_valid():
@@ -101,21 +101,21 @@ class ProductDeleteView(PermissionRequiredMixin, LoginRequiredMixin, UserPassesT
     model = Products
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:ProductsList')
-    permission_required = ('catalog.delete_products',)
+    # permission_required = ('catalog.delete_products',)
 
     def test_func(self):
         product = self.get_object()
         return self.request.user == product.creator
 
 
-class ProductCreateView(PermissionRequiredMixin,LoginRequiredMixin, CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
 
     redirect_field_name = 'next'
 
     model = Products
     form_class = ProductForm
     success_url = reverse_lazy('catalog:ProductsList')
-    permission_required = ('catalog.add_products',)
+    # permission_required = ('catalog.add_products',)
 
     def form_valid(self, form):
         if form.is_valid():
@@ -130,6 +130,13 @@ class ProductCreateView(PermissionRequiredMixin,LoginRequiredMixin, CreateView):
 class VersionDetailView(DetailView):
     model = VersionProduct
 
+
+class UserProductsListView(ListView):
+    model = Products
+
+    def get_queryset(self):
+        user = self.request.user
+        return Products.objects.filter(creator=user)
 
 
 
