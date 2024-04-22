@@ -17,7 +17,10 @@ load_dotenv()
 ya_password = os.getenv('YA_PASSWORD')
 admin_password = os.getenv('ADMIN_PASSWORD')
 PASSWORD = os.getenv('PASSWORD')
-
+SECRET_KEY = os.getenv('SECRET_KEY')
+EMIL_HOST_USER = os.getenv('EMIL_HOST_USER')
+NAME = os.getenv('NAME')
+USER = os.getenv('USER')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-du+oor%sut&ec8nd(2z6y(a77apa@++ay((os41kz9e8&2)49t'
+SECRET_KEY = SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -87,8 +90,8 @@ WSGI_APPLICATION = 'internet_shop_django.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
+        'NAME': NAME,
+        'USER': USER,
         'PASSWORD': PASSWORD,
     }
 }
@@ -144,7 +147,7 @@ EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = 'daemonexid@yandex.ru'
+EMAIL_HOST_USER = EMIL_HOST_USER
 EMAIL_HOST_PASSWORD = f'{ya_password}'
 
 EMAIL_SERVER = EMAIL_HOST_USER
