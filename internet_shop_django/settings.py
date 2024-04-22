@@ -20,7 +20,6 @@ PASSWORD = os.getenv('PASSWORD')
 SECRET_KEY = os.getenv('SECRET_KEY')
 EMIL_HOST_USER = os.getenv('EMIL_HOST_USER')
 NAME = os.getenv('NAME')
-USER = os.getenv('USER')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -91,7 +90,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': NAME,
-        'USER': USER,
+        'USER': 'postgres',
         'PASSWORD': PASSWORD,
     }
 }
