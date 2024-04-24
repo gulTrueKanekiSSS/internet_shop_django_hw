@@ -22,6 +22,7 @@ EMIL_HOST_USER = os.getenv('EMIL_HOST_USER')
 NAME = os.getenv('NAME')
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
+PG_USER = os.getenv('PG_USER')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS')
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -93,7 +94,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': NAME,
-        'USER': 'postgres',
+        'USER': PG_USER,
         'PASSWORD': PASSWORD,
     }
 }
