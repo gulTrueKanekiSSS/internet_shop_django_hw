@@ -18,7 +18,7 @@ ya_password = os.getenv('YA_PASSWORD')
 admin_password = os.getenv('ADMIN_PASSWORD')
 PASSWORD = os.getenv('PASSWORD')
 SECRET_KEY = os.getenv('SECRET_KEY')
-EMIL_HOST_USER = os.getenv('EMIL_HOST_USER')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 NAME = os.getenv('NAME')
 EMAIL_HOST = os.getenv('EMAIL_HOST')
 EMAIL_PORT = os.getenv('EMAIL_PORT')
@@ -150,7 +150,6 @@ EMAIL_HOST = EMAIL_HOST
 EMAIL_PORT = EMAIL_PORT
 EMAIL_USE_TLS = EMAIL_USE_TLS
 
-EMAIL_HOST_USER = EMIL_HOST_USER
 EMAIL_HOST_PASSWORD = f'{ya_password}'
 
 EMAIL_SERVER = EMAIL_HOST_USER
