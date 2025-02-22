@@ -33,7 +33,7 @@
 
 ---
 ### Наглядно посмотреть на то как это выглядит можно тут:
-![Главная страница](https://gultruekanekisss.github.io/internet_shop_django_hw/docs/main_page.png)
+![Главная страница](https://gultruekanekisss.github.io/internet_shop_django_hw/main_page.png)
 ![Войти]()
 ![Регистрация]()
 ![Просмотр Товара]()
