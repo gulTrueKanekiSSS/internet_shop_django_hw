@@ -33,7 +33,7 @@
 
 ---
 ### Наглядно посмотреть на то как это выглядит можно тут:
-![Главная страница](https://gulTrueKanekiSSS.github.io/internet_shop_django_hw/docs/Снимок экрана 2025-02-22 в 17.39.30.png)
+![Главная страница](https://gulTrueKanekiSSS.github.io/internet_shop_django_hw/docs/main_page.png)
 ![Войти]()
 ![Регистрация]()
 ![Просмотр Товара]()
