@@ -38,4 +38,4 @@
 ![Регистрация](https://gultruekanekisss.github.io/internet_shop_django_hw/registration.png)
 ![Просмотр Товара](https://gultruekanekisss.github.io/internet_shop_django_hw/product_page.png)
 ![Публикация товара](https://gultruekanekisss.github.io/internet_shop_django_hw/public_product.png)
-![Публикация товара](https://gultruekanekisss.github.io/internet_shop_django_hw/profile.png)
+![Профиль](https://gultruekanekisss.github.io/internet_shop_django_hw/profile.png)
