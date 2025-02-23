@@ -34,6 +34,8 @@
 ---
 ### Наглядно посмотреть на то как это выглядит можно тут:
 ![Главная страница](https://gultruekanekisss.github.io/internet_shop_django_hw/main_page.png)
-![Войти]()
-![Регистрация]()
-![Просмотр Товара]()
+![Войти](https://gultruekanekisss.github.io/internet_shop_django_hw/login.png)
+![Регистрация](https://gultruekanekisss.github.io/internet_shop_django_hw/registration.png)
+![Просмотр Товара](https://gultruekanekisss.github.io/internet_shop_django_hw/product_page.png)
+![Публикация товара](https://gultruekanekisss.github.io/internet_shop_django_hw/public_product.png)
+![Публикация товара](https://gultruekanekisss.github.io/internet_shop_django_hw/profile.png)
